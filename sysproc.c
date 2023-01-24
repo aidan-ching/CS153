@@ -6,6 +6,7 @@
 #include "memlayout.h"
 #include "mmu.h"
 #include "proc.h"
+#define NULL ((void *)0)
 
 int
 sys_fork(void)
@@ -88,4 +89,23 @@ sys_uptime(void)
   xticks = ticks;
   release(&tickslock);
   return xticks;
+}
+
+int
+sys_getyear(void)
+{
+	return 1975;
+}
+
+int 
+sys_getparents(void)
+{
+  struct proc *curproc = myproc();
+  while (curproc != NULL){
+	cprintf("%d\n", curproc->pid);
+	cprintf("%d\n", curproc->exitstatus);
+	curproc = curproc->parent;
+  }	
+
+return 0;
 }

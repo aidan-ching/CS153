@@ -265,6 +265,8 @@ exit(void)
   curproc->state = ZOMBIE;
   sched();
   panic("zombie exit");
+
+  curproc->exitstatus = 1;
 }
 
 // Wait for a child process to exit and return its pid.
