@@ -5,5 +5,5 @@
 int main()
 {
 	getparents();
-	exit();
+	exit(1);
 }

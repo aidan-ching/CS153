@@ -14,15 +14,15 @@ sys_fork(void)
   return fork();
 }
 
-int
-sys_exit(void)
+void
+sys_exit(int status)
 {
-  exit();
-  return 0;  // not reached
+  exit(status);
+  //return 0;  // not reached
 }
 
 int
-sys_wait(void)
+sys_wait(int *status)
 {
   return wait();
 }
@@ -103,7 +103,6 @@ sys_getparents(void)
   struct proc *curproc = myproc();
   while (curproc != NULL){
 	cprintf("%d\n", curproc->pid);
-	cprintf("%d\n", curproc->exitstatus);
 	curproc = curproc->parent;
   }	
 

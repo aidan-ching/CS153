@@ -5,5 +5,5 @@
 int main(void)
 {
 	printf(1, "Note: Unix V6 was released in the year %d\n", getyear());
-	exit();
+	exit(1);
 }
