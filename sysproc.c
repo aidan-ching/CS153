@@ -15,16 +15,27 @@ sys_fork(void)
 }
 
 void
-sys_exit(int status)
+sys_exit(void)
 {
+  int status = 0;
+  argint(0, &status);
   exit(status);
   //return 0;  // not reached
 }
 
 int
-sys_wait(int *status)
+sys_wait(void)
 {
   return wait();
+}
+
+int
+sys_wait1(int *status)
+{
+  if (argptr(0, (void*)&status, sizeof(status)) < 0)
+    return -1;
+
+  return wait1(status);
 }
 
 int
@@ -101,10 +112,26 @@ int
 sys_getparents(void)
 {
   struct proc *curproc = myproc();
-  while (curproc != NULL){
-	cprintf("%d\n", curproc->pid);
-	curproc = curproc->parent;
-  }	
 
-return 0;
+  cprintf("current name: %s, pid: %d\n", curproc->name, curproc->pid);
+  curproc = curproc->parent;
+
+  while (curproc != NULL){
+    cprintf("parent name: %s, pid: %d\n", curproc->name, curproc->pid);
+    curproc = curproc->parent;
+  }	
+  return 0;
+}
+
+
+int
+sys_waitpid(int *status)
+{
+  int pid = myproc()->pid;
+  argint(0, &pid);
+
+  if (argptr(1, (void*)&status, sizeof(status)) < 0)
+    return -1;
+
+  return waitpid(pid, status, 0);
 }

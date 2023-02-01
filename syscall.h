@@ -22,3 +22,5 @@
 #define SYS_close  21
 #define SYS_getyear 22
 #define SYS_getparents 23
+#define SYS_waitpid 24
+#define SYS_wait1 25
